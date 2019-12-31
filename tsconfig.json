@@ -1,0 +1,13 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./build",
+    "noImplicitAny": true,
+    "module": "ES6",
+    "target": "es5",
+    "sourceMap": true,
+    "declaration": true
+  },
+  "exclude": ["lib/src/**/*ules", "dist", "build"]
+}

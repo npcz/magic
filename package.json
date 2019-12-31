@@ -1,0 +1,46 @@
+{
+  "name": "@npcz/magic",
+  "version": "0.1.0",
+  "description": "Emscripten port of libmagic (https://darwinsys.com/file/) with javascript interface",
+  "keywords": [
+    "libmagic",
+    "file",
+    "identification",
+    "mime",
+    "wasm"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/npcz/magic.git",
+  "homepage": "https://github.com/npcz/magic#readme",
+  "author": "Abdessattar Sassi <oss.abde.sassi@gmail.com>",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "install": "napa",
+    "build:dockerimage": "docker image inspect -f '.' mydockerimage || docker build -t mydockerimage .",
+    "build:emscripten": "docker run --rm -v $(pwd):/src mydockerimage ./build.sh",
+    "build:lib": "tsc -p tsconfig.json && copyfiles -a -f build/lib/* dist",
+    "build": "yarn build:dockerimage && yarn build:emscripten && yarn build:lib",
+    "clean": "rimraf build dist",
+    "lint": "eslint . --ext .js,.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "copyfiles": "^2.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "napa": "^3.0.0",
+    "node": "^13.5.0",
+    "prettier-eslint": "^9.0.1",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.4",
+    "typescript-eslint": "^0.0.1-alpha.0"
+  },
+  "napa": {
+    "c-libmagic": "git+https://github.com/file/file.git"
+  }
+}
