@@ -4,24 +4,24 @@
 import * as fs from 'fs';
 import { MagicBindingModule, MagicBindingInterface } from '../lib/index';
 
-const binding = require('../../dist/magic-js');
-const instance: MagicBindingModule = binding({
+const bindingModule = require('../../dist/magic-js');
+const binding: MagicBindingModule = bindingModule({
   onRuntimeInitialized() {
-    console.log(instance);
-    console.log(`Magic version : ${instance.MagicBinding.version()}`);
+    console.log(binding);
+    console.log(`Magic version : ${binding.MagicBinding.version()}`);
 
     if (
       -1 ===
-      instance.MagicBinding.init(
+      binding.MagicBinding.init(
         '/Users/abdessattar/Projects/maestro-magic/dist/magic.mgc',
-        instance.MAGIC_PRESERVE_ATIME
+        binding.MAGIC_PRESERVE_ATIME
       )
     ) {
       console.error('Initialization failed!');
       return;
     }
 
-    const m: MagicBindingInterface = new instance.MagicBinding();
+    const magic: MagicBindingInterface = new binding.MagicBinding();
 
     const files = fs.readdirSync('.');
     console.log(`${files.length} files to check`);
@@ -29,11 +29,11 @@ const instance: MagicBindingModule = binding({
       console.log(
         file,
         ' : ',
-        m.detect(file, instance.MagicBinding.flags() | instance.MAGIC_MIME)
+        magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME)
       );
-      console.log(file, ' : ', m.detect(file, -1));
+      console.log(file, ' : ', magic.detect(file, -1));
     });
 
-    instance.MagicBinding.destroy();
+    binding.MagicBinding.destroy();
   }
 });

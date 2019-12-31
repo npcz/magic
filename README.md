@@ -17,44 +17,42 @@ NOTE: file system access is required and therefore the module is only useful in 
 
 ### Using the raw binding
 
-```javascript
+```typescript
 
-const fs = require("fs");
-const Module = require("../dist/magic-js");
-const instance = Module({
-  // Wait for the WASM to be compiled and ready
+import * as fs from 'fs';
+import { MagicBindingModule, MagicBindingInterface } from '../lib/index';
+
+const bindingModule = require('../../dist/magic-js');
+const binding: MagicBindingModule = bindingModule({
   onRuntimeInitialized() {
-    // Initialize the binding
+    console.log(binding);
+    console.log(`Magic version : ${binding.MagicBinding.version()}`);
+
     if (
       -1 ===
-      instance.FileMagic.init(
-        "/Users/abdessattar/Projects/maestro-magic/dist/magic.mgc",
-        instance.MAGIC_PRESERVE_ATIME
+      binding.MagicBinding.init(
+        '/Users/abdessattar/Projects/maestro-magic/dist/magic.mgc',
+        binding.MAGIC_PRESERVE_ATIME
       )
     ) {
-      console.error("Initialization failed!");
+      console.error('Initialization failed!');
       return;
     }
-    
-    // Get an instance of the binding and use it
-    const m = new instance.FileMagic();
 
-    const files = fs.readdirSync(".");
+    const magic: MagicBindingInterface = new binding.MagicBinding();
+
+    const files = fs.readdirSync('.');
     console.log(`${files.length} files to check`);
     files.forEach(file => {
       console.log(
         file,
-        " : ",
-        m.detect(
-          file,
-          instance.FileMagic.flags() | instance.MAGIC_MIME
-        )
+        ' : ',
+        magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME)
       );
-      console.log(file, " : ", m.detect(file, -1));
+      console.log(file, ' : ', magic.detect(file, -1));
     });
 
-    // Destroy the instance to release memory and resources when it is no longer needed.
-    instance.FileMagic.destroy();
+    binding.MagicBinding.destroy();
   }
 });
 
