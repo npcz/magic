@@ -4,6 +4,12 @@
 import { FileMagic } from './file-magic';
 import * as path from 'path';
 import { MagicFlags } from './file-magic';
+// (node:23174) MaxListenersExceededWarning: Possible EventEmitter memory
+// leak detected. 11 uncaughtException listeners added to [process]. Use
+// emitter.setMaxListeners() to increase limit
+// There is no bug here - Just too many test cases loading the binding module
+// which installs the listener each time.
+process.setMaxListeners(0);
 
 describe('file magic unit tests', () => {
   let magic: FileMagic;
