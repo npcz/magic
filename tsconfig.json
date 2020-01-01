@@ -4,10 +4,10 @@
     "rootDir": ".",
     "outDir": "./build",
     "noImplicitAny": true,
-    "module": "ES6",
-    "target": "es5",
+    "module": "commonjs",
+    "target": "ES5",
     "sourceMap": true,
     "declaration": true
   },
-  "exclude": ["lib/src/**/*ules", "dist", "build"]
+  "exclude": ["dist", "build"]
 }
