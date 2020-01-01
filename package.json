@@ -22,12 +22,14 @@
     "build:lib": "tsc -p tsconfig.json && copyfiles -a -f build/lib/* dist",
     "build": "yarn build:dockerimage && yarn build:emscripten && yarn build:lib",
     "clean": "rimraf build dist",
-    "lint": "eslint . --ext .js,.ts"
+    "lint": "eslint . --ext .js,.ts",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@types/node": "^13.1.2",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
+    "auto-changelog": "^1.16.2",
     "copyfiles": "^2.1.1",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",

@@ -1,0 +1,5 @@
+{
+    "breaking-pattern": "brk-change",
+      "commitLimit": false,
+      "release-summary": true
+}
