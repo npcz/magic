@@ -13,3 +13,5 @@ coverage
 # Dependency directories
 node_modules/
 
+lib/magic-js.js
+lib/magic-js.wasm

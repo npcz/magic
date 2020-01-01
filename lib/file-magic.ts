@@ -6,7 +6,7 @@ import {
   MagicBindingStaticInterface,
   MagicBindingInterface
 } from './binding';
-const bindingModule = require('../dist/magic-js');
+const bindingModule = require('./magic-js');
 
 /**
  * Reproduces exactly the same values than in magic.h of libmagic but using

@@ -245,7 +245,7 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
     -s MODULARIZE=1 \
     -s FILESYSTEM=1 -s \
     NODERAWFS=1 \
-    -o $DIST_DIR/magic-js.js \
+    -o ../magic-js.js \
     -I $LIBMAGIC_BUILD_DIR/src \
     -L $LIBMAGIC_BUILD_DIR/src/.libs \
     -lmagic \
@@ -255,6 +255,18 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
     ! emcc $EMCC_OPTIONS
     if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
         echo "$0: failed to compile binding"
+        exit 4
+    fi
+    # Copy the generated files to dist
+    echo "-- [binding] copy js and wasm to dist and lib dir"
+    ! cp ../magic-js.js ../magic-js.wasm "$DIST_DIR"
+    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+        echo "$0: failed to copy generated magic-js files to dist dir"
+        exit 4
+    fi
+    ! cp ../magic-js.js ../magic-js.wasm "$ROOT_DIR"/build/lib
+    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+        echo "$0: failed to copy generated magic-js files to build dir"
         exit 4
     fi
     cd "$ROOT_DIR"
