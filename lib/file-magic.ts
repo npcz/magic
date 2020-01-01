@@ -6,67 +6,81 @@ import {
   MagicBindingStaticInterface,
   MagicBindingInterface
 } from './binding';
-const bindingModule = require('../../dist/magic-js');
+const bindingModule = require('../dist/magic-js');
 
+/**
+ * Reproduces exactly the same values than in magic.h of libmagic but using
+ * a much more type safe enum.
+ */
 export enum MagicFlags {
   /** No flags */
-  MAGIC_NONE = bindingModule.MagicBinding.MAGIC_NONE,
+  MAGIC_NONE = 0x0000000,
   /** Turn on debugging */
-  MAGIC_DEBUG = bindingModule.MagicBinding.MAGIC_DEBUG,
+  MAGIC_DEBUG = 0x0000001,
   /** Follow symlinks */
-  MAGIC_SYMLINK = bindingModule.MagicBinding.MAGIC_SYMLINK,
+  MAGIC_SYMLINK = 0x0000002,
   /** Check inside compressed files */
-  MAGIC_COMPRESS = bindingModule.MagicBinding.MAGIC_COMPRESS,
+  MAGIC_COMPRESS = 0x0000004,
   /** Look at the contents of devices */
-  MAGIC_DEVICES = bindingModule.MagicBinding.MAGIC_DEVICES,
+  MAGIC_DEVICES = 0x0000004,
   /** Return the MIME type */
-  MAGIC_MIME_TYPE = bindingModule.MagicBinding.MAGIC_MIME_TYPE,
+  MAGIC_MIME_TYPE = 0x0000010,
   /** Return all matches */
-  MAGIC_CONTINUE = bindingModule.MagicBinding.MAGIC_CONTINUE,
+  MAGIC_CONTINUE = 0x0000020,
   /** Print warnings to stderr */
-  MAGIC_CHECK = bindingModule.MagicBinding.MAGIC_CHECK,
-  /** Restore access time on exit */
-  MAGIC_PRESERVE_ATIME = bindingModule.MagicBinding.MAGIC_PRESERVE_ATIME,
+  MAGIC_CHECK = 0x0000040,
+  /** Restore access time on exit - should only be used on systems that support it */
+  MAGIC_PRESERVE_ATIME = 0x0000080,
   /** Don't convert unprintable chars */
-  MAGIC_RAW = bindingModule.MagicBinding.MAGIC_RAW,
+  MAGIC_RAW = 0x0000100,
   /** Handle ENOENT etc as real errors */
-  MAGIC_ERROR = bindingModule.MagicBinding.MAGIC_ERROR,
+  MAGIC_ERROR = 0x0000200,
   /** Return the MIME encoding */
-  MAGIC_MIME_ENCODING = bindingModule.MagicBinding.MAGIC_MIME_ENCODING,
+  MAGIC_MIME_ENCODING = 0x0000400,
   /** Return both the mime type and the encoding */
-  MAGIC_MIME = bindingModule.MagicBinding.MAGIC_MIME,
+  MAGIC_MIME = MAGIC_MIME_TYPE | MAGIC_MIME_ENCODING,
   /** Return the Apple creator/type */
-  MAGIC_APPLE = bindingModule.MagicBinding.MAGIC_APPLE,
+  MAGIC_APPLE = 0x0000800,
   /** Return a /-separated list of extensions */
-  MAGIC_EXTENSION = bindingModule.MagicBinding.MAGIC_EXTENSION,
+  MAGIC_EXTENSION = 0x1000000,
   /** Check inside compressed files but not report compression */
-  MAGIC_COMPRESS_TRANSP = bindingModule.MagicBinding.MAGIC_COMPRESS_TRANSP,
+  MAGIC_COMPRESS_TRANSP = 0x2000000,
   /** Equivalent to MAGIC_EXTENSION|MAGIC_MIME|MAGIC_APPLE  */
-  MAGIC_NODESC = bindingModule.MagicBinding.MAGIC_NODESC,
+  MAGIC_NODESC = MAGIC_EXTENSION | MAGIC_MIME | MAGIC_APPLE,
   /** Don't check for compressed files */
-  MAGIC_NO_CHECK_COMPRESS = bindingModule.MagicBinding.MAGIC_NO_CHECK_COMPRESS,
+  MAGIC_NO_CHECK_COMPRESS = 0x0001000,
   /** Don't check for tar files */
-  MAGIC_NO_CHECK_TAR = bindingModule.MagicBinding.MAGIC_NO_CHECK_TAR,
+  MAGIC_NO_CHECK_TAR = 0x0002000,
   /** Don't check magic entries */
-  MAGIC_NO_CHECK_SOFT = bindingModule.MagicBinding.MAGIC_NO_CHECK_SOFT,
+  MAGIC_NO_CHECK_SOFT = 0x0004000,
   /** Don't check application type */
-  MAGIC_NO_CHECK_APPTYPE = bindingModule.MagicBinding.MAGIC_NO_CHECK_APPTYPE,
+  MAGIC_NO_CHECK_APPTYPE = 0x0008000,
   /** Don't check for elf details */
-  MAGIC_NO_CHECK_ELF = bindingModule.MagicBinding.MAGIC_NO_CHECK_ELF,
+  MAGIC_NO_CHECK_ELF = 0x0010000,
   /** Don't check for text files */
-  MAGIC_NO_CHECK_TEXT = bindingModule.MagicBinding.MAGIC_NO_CHECK_TEXT,
+  MAGIC_NO_CHECK_TEXT = 0x0020000,
   /** Don't check for cdf files */
-  MAGIC_NO_CHECK_CDF = bindingModule.MagicBinding.MAGIC_NO_CHECK_CDF,
+  MAGIC_NO_CHECK_CDF = 0x0040000,
   /** Don't check for CSV files */
-  MAGIC_NO_CHECK_CSV = bindingModule.MagicBinding.MAGIC_NO_CHECK_CSV,
+  MAGIC_NO_CHECK_CSV = 0x0080000,
   /** Don't check tokens */
-  MAGIC_NO_CHECK_TOKENS = bindingModule.MagicBinding.MAGIC_NO_CHECK_TOKENS,
+  MAGIC_NO_CHECK_TOKENS = 0x0100000,
   /** Don't check text encodings */
-  MAGIC_NO_CHECK_ENCODING = bindingModule.MagicBinding.MAGIC_NO_CHECK_ENCODING,
+  MAGIC_NO_CHECK_ENCODING = 0x0200000,
   /** Don't check for JSON files */
-  MAGIC_NO_CHECK_JSON = bindingModule.MagicBinding.MAGIC_NO_CHECK_JSON,
+  MAGIC_NO_CHECK_JSON = 0x0400000,
   /** No built-in tests; only consult the magic file */
-  MAGIC_NO_CHECK_BUILTIN = bindingModule.MagicBinding.MAGIC_NO_CHECK_BUILTIN
+  MAGIC_NO_CHECK_BUILTIN = MAGIC_NO_CHECK_COMPRESS |
+    MAGIC_NO_CHECK_TAR |
+    /*	MAGIC_NO_CHECK_SOFT	| */
+    MAGIC_NO_CHECK_APPTYPE |
+    MAGIC_NO_CHECK_ELF |
+    MAGIC_NO_CHECK_TEXT |
+    MAGIC_NO_CHECK_CSV |
+    MAGIC_NO_CHECK_CDF |
+    MAGIC_NO_CHECK_TOKENS |
+    MAGIC_NO_CHECK_ENCODING |
+    MAGIC_NO_CHECK_JSON
 }
 
 /**
@@ -76,9 +90,10 @@ export class FileMagic {
   /**
    * Path to the magic file.
    *
-   * Can be changed only before the first call to getInstance(). This path
-   * must be correct and pointing to the location of the magic.mgc file. By
-   * default, it is expected to be in the current script working directory.
+   * Can only be (and should be) changed before the first call to getInstance().
+   *
+   * This path must be correct and pointing to the location of the magic.mgc file.
+   * By default, it is expected to be in the current script working directory.
    */
   static magicFile: string = 'magic.mgc';
   /**
@@ -89,7 +104,7 @@ export class FileMagic {
    * getInstance() method. After that, detection can always be customized
    * by providing specific flags to the detect() method.
    */
-  static defaulFlags: MagicFlags = MagicFlags.MAGIC_PRESERVE_ATIME;
+  static defaulFlags: MagicFlags = MagicFlags.MAGIC_NONE;
   /**
    * The single instance of FileMagic.
    */
@@ -123,23 +138,26 @@ export class FileMagic {
    */
   static getInstance(): Promise<FileMagic> {
     if (!FileMagic._instance) {
-      FileMagic._instance = new FileMagic();
-      const moduleInstance: MagicBindingModule = bindingModule({
-        onRuntimeInitialized() {
-          // Initialize libmagic
-          const status = FileMagic._binding.init(
-            FileMagic.magicFile,
-            FileMagic.defaulFlags
-          );
-          if (status === -1)
-            return Promise.reject(new Error('filed to initialize libmagic'));
+      return new Promise((resolve, reject) => {
+        const moduleInstance: MagicBindingModule = bindingModule({
+          onRuntimeInitialized() {
+            // Initialize libmagic
+            const status = moduleInstance.MagicBinding.init(
+              FileMagic.magicFile,
+              FileMagic.defaulFlags
+            );
+            if (status === -1) {
+              reject('failed to initialize libmagic');
+            }
 
-          // Initialize the instance members for direct access in later calls
-          FileMagic._binding = moduleInstance.MagicBinding;
-          FileMagic._instance._magic = new moduleInstance.MagicBinding();
+            // Initialize the instance members for direct access in later calls
+            FileMagic._binding = moduleInstance.MagicBinding;
+            FileMagic._instance = new FileMagic();
+            FileMagic._instance._magic = new moduleInstance.MagicBinding();
 
-          return Promise.resolve(FileMagic._instance);
-        }
+            resolve(FileMagic._instance);
+          }
+        });
       });
     }
     return Promise.resolve(FileMagic._instance);
@@ -157,20 +175,34 @@ export class FileMagic {
    * magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME)
    *
    * @return the flags set for the binding instance.
+   * @throws Error when used after the binding is closed.
    * @see init
    * @see detect
    */
   get flags(): MagicFlags {
-    return FileMagic._binding.flags();
+    if (FileMagic._binding) {
+      return FileMagic._binding.flags();
+    } else {
+      throw new Error(
+        'FileMagic has not been initialized. Did you forget to call getInstance()?'
+      );
+    }
   }
 
   /**
    * Get the version of libmagic.
    *
    * @returns The version of libmagic, e.g. 835.
+   * @throws Error when used after the binding is closed.
    */
-  static version(): number {
-    return FileMagic._binding.version();
+  version(): number {
+    if (FileMagic._binding) {
+      return FileMagic._binding.version();
+    } else {
+      throw new Error(
+        'FileMagic has not been initialized. Did you forget to call getInstance()?'
+      );
+    }
   }
 
   /**
@@ -181,7 +213,7 @@ export class FileMagic {
    * has been called, the binding can no longer be used and a new instance must
    * be created.
    */
-  close(): void {
+  static close(): void {
     if (FileMagic._binding) {
       FileMagic._binding.destroy();
     }
@@ -227,15 +259,22 @@ export class FileMagic {
    * the default flags for the binding, pass -1;
    * @return a string containing the detection result (type description, mime type,
    * mime encoding, etc...) when successful.
-   * @throws Error with an error message when the detection fails.
+   * @throws Error with an error message when the detection fails or when used
+   * after the binding is clsoed.
    */
   detect(path: string, flags?: MagicFlags): string {
-    const result = this._magic.detect(path, flags ? flags : -1);
-    // Check for detection error
-    if (result.startsWith('ERROR')) {
-      throw new Error(result.substring('ERROR: '.length));
+    if (FileMagic._binding) {
+      const result = this._magic.detect(path, flags ? flags : -1);
+      // Check for detection error
+      if (result.startsWith('ERROR')) {
+        throw new Error(result.substring('ERROR: '.length));
+      }
+      return result;
+    } else {
+      throw new Error(
+        'FileMagic has not been initialized. Did you forget to call getInstance()?'
+      );
     }
-    return result;
   }
 
   /**
@@ -245,7 +284,8 @@ export class FileMagic {
    * @param path path the file to be detected.
    * @return a string containing the mime type of the file contents (e.g.
    * text/plain) when successful.
-   * @throws Error with an error message when the detection fails.
+   * @throws Error with an error message when the detection fails or when used
+   * after the binding is clsoed.
    * @see detect
    */
   detectMimeType(path: string): string {
@@ -259,7 +299,8 @@ export class FileMagic {
    * @param path path the file to be detected.
    * @return a string containing the mime type of the file contents (e.g.
    * charset=us-ascii) when successful.
-   * @throws Error with an error message when the detection fails.
+   * @throws Error with an error message when the detection fails or when used
+   * after the binding is clsoed.
    * @see detect
    */
   detectMimeEncoding(path: string): string {
@@ -273,7 +314,8 @@ export class FileMagic {
    * @param path path the file to be detected.
    * @return a string containing the mime type of the file contents (e.g.
    * text/plain; charset=us-ascii) when successful.
-   * @throws Error with an error message when the detection fails.
+   * @throws Error with an error message when the detection fails or when used
+   * after the binding is clsoed.
    * @see detect
    */
   detectMime(path: string): string {
