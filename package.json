@@ -24,7 +24,10 @@
     "clean": "rimraf build dist coverage lib/magic-js.js lib/magic-js.wasm",
     "lint": "eslint . --ext .js,.ts",
     "test": "jest",
-    "changelog": "auto-changelog -p && git add CHANGELOG.md"
+    "changelog": "auto-changelog -p && git add CHANGELOG.md",
+    "example:raw": "node build/examples/raw-binding-example.js",
+    "example:magic": "node build/examples/file-magic-example.js",
+    "examples": "yarn example:raw && yarn example:magic"
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",

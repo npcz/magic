@@ -130,8 +130,9 @@ To build the module from source:
 $ git clone https://github.com/npcz/magic.git
 $ cd magic
 $ yarn build
-
-$ node tests/raw-binding-example.js
+$ yarn test
+$ yarn example:raw
+$ yarn example:magic
 ```
 
 The build uses docker to reduce the hassle of platform specific things when building libmagic. Setting up docker varies between platforms, refer to the official [docker documentation](https://docs.docker.com/get-started).
