@@ -5,14 +5,14 @@
 # saner programming env: these switches turn some bugs into errors
 set -o errexit -o pipefail -o noclobber -o nounset
 
-# Takes a path argument and returns it as an absolute path. 
+# Takes a path argument and returns it as an absolute path.
 # No-op if the path is already absolute.
 function toAbsolutePath {
     local target="$1"
-
+    
     if [ "$target" == "." ]; then
         pwd
-    elif [ "$target" == ".." ]; then
+        elif [ "$target" == ".." ]; then
         dirname "$(pwd)"
     else
         echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
@@ -232,7 +232,7 @@ fi
 if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
     echo "-- [binding] generate js and wasm"
     cd lib/binding
-
+    
     SRCS="magic-js.cpp"
     # Compile the code
     EMCC_OPTIONS="-O3 \
@@ -258,10 +258,16 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
         exit 4
     fi
     # Copy the generated files to dist
-    echo "-- [binding] copy js and wasm to dist and lib dir"
+    echo "-- [binding] copy js and wasm to dist"
     ! cp ../magic-js.js ../magic-js.wasm "$DIST_DIR"
     if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
         echo "$0: failed to copy generated magic-js files to dist dir"
+        exit 4
+    fi
+    echo "-- [binding] copy js and wasm to build/lib"
+    ! mkdir -p "$ROOT_DIR"/build/lib
+    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+        echo "$0: failed to create destination $ROOT_DIR/build/lib"
         exit 4
     fi
     ! cp ../magic-js.js ../magic-js.wasm "$ROOT_DIR"/build/lib
