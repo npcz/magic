@@ -9,5 +9,10 @@
     "sourceMap": true,
     "declaration": true
   },
-  "exclude": ["dist", "build"]
+  "exclude": [
+    "dist",
+    "build",
+    "**/__tests__/**/*.+(ts)",
+    "**/?(*.)+(spec|test).+(ts)"
+  ]
 }

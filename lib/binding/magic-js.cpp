@@ -44,29 +44,32 @@ std::string MagicBinding::detect(const std::string &path, int flags)
     magic_t ms = nullptr;
     {
         std::lock_guard<std::mutex> lock(ms_pool_mutex);
-        if (!ms_pool.empty()) {
+        if (!ms_pool.empty())
+        {
             ms = ms_pool.front();
             ms_pool.pop();
         }
     }
     if (!ms)
     {
-        ms = newMagic(MagicBinding::magicPath, (flags == -1 ) ? MagicBinding::_flags : flags);
+        ms = newMagic(MagicBinding::magicPath, (flags == -1) ? MagicBinding::_flags : flags);
         if (!ms)
             return "ERROR: could not initialize the magic context for this request";
-    } else {
-        magic_setflags(ms, (flags == -1 ) ? MagicBinding::_flags : flags);
     }
-
-    const char *e;
-    if ((e = magic_error(ms)) != NULL)
-        std::cout << "WARNING: " << e << std::endl;
+    else
+    {
+        magic_setflags(ms, (flags == -1) ? MagicBinding::_flags : flags);
+    }
 
     std::string detectedType;
     auto result = magic_file(ms, path.c_str());
     if (!result)
     {
         detectedType.append("ERROR: ").append(magic_error(ms));
+    }
+    else if (std::string(result).rfind("cannot open", 0) == 0)
+    {
+        detectedType.append("ERROR: ").append(result);
     }
     else
     {
@@ -77,7 +80,7 @@ std::string MagicBinding::detect(const std::string &path, int flags)
         std::lock_guard<std::mutex> lock(ms_pool_mutex);
         ms_pool.push(ms);
     }
-    return result;
+    return detectedType;
 }
 
 int MagicBinding::version()
