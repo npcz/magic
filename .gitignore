@@ -5,6 +5,7 @@
 # Build dirs
 dist
 build
+coverage
 
 # Logs
 *.log
