@@ -16,9 +16,8 @@
   "author": "Abdessattar Sassi <oss.abde.sassi@gmail.com>",
   "license": "BSD-3-Clause",
   "scripts": {
-    "install": "napa",
     "build:dockerimage": "docker image inspect -f '.' mydockerimage || docker build -t mydockerimage .",
-    "build:emscripten": "docker run --rm -v $(pwd):/src mydockerimage ./build.sh",
+    "build:emscripten": "napa && docker run --rm -v $(pwd):/src mydockerimage ./build.sh",
     "build:lib": "tsc -p tsconfig.json && copyfiles -a -f build/lib/* dist",
     "build": "yarn build:dockerimage && yarn build:emscripten && yarn build:lib",
     "clean": "rimraf build dist coverage lib/magic-js.js lib/magic-js.wasm",
