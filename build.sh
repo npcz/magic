@@ -130,7 +130,7 @@ if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
     echo "$0: failed to setup the build dir for libmagic at $LIBMAGIC_BUILD_DIR"
     exit 3
 fi
-[ $VERBOSE == "yes" ] && echo "-- Using libmagic in: $LIBMAGIC_DIR"
+[ $VERBOSE == "yes" ] && echo "-- Using libmagic in: $LIBMAGIC_SRC_DIR"
 
 DIST_DIR=$ROOT_DIR/$DIST_DIR
 [ $VERBOSE == "yes" ] && echo "-- Final build artifacts will be placed in: $DIST_DIR"
