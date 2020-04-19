@@ -236,23 +236,24 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
     SRCS="magic-js.cpp"
     # Compile the code
     EMCC_OPTIONS="-O3 \
-    -fno-exceptions \
-    --bind \
-    -s STRICT=1 \
-    -s ASSERTIONS=1 \
-    -s ALLOW_MEMORY_GROWTH=1 \
-    -s MALLOC=emmalloc \
-    -s MODULARIZE=1 \
-    -s FILESYSTEM=1 -s \
-    NODERAWFS=1 \
-    -o ../magic-js.js \
-    -I $LIBMAGIC_BUILD_DIR/src \
-    -L $LIBMAGIC_BUILD_DIR/src/.libs \
-    -lmagic \
-    $SRCS"
-    echo "emcc $EMCC_OPTIONS"
+-fno-exceptions \
+--bind \
+--no-entry \
+-s STRICT=1 \
+-s ASSERTIONS=1 \
+-s ALLOW_MEMORY_GROWTH=1 \
+-s MALLOC=emmalloc \
+-s MODULARIZE=1 \
+-s FILESYSTEM=1 \
+-s NODERAWFS=1 \
+-o ../magic-js.js \
+-I $LIBMAGIC_BUILD_DIR/src \
+-L $LIBMAGIC_BUILD_DIR/src/.libs \
+-lmagic \
+$SRCS"
+    echo "em++ $EMCC_OPTIONS"
     # shellcheck disable=SC2086
-    ! emcc $EMCC_OPTIONS
+    ! em++ $EMCC_OPTIONS
     if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
         echo "$0: failed to compile binding"
         exit 4
