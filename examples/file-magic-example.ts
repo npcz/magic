@@ -43,7 +43,7 @@ FileMagic.getInstance()
   .catch((err: Error) => {
     console.error(err);
     // when the initialization fails, FileMagic already cleans up, but
-    // there is no harm in getting used to always close when no longer 
+    // there is no harm in getting used to always close when no longer
     // needed.
     FileMagic.close();
   });
