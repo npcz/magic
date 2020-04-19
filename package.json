@@ -21,7 +21,7 @@
     "build:lib": "tsc -p tsconfig.json && copyfiles -a -f build/lib/* dist",
     "build": "yarn build:dockerimage && yarn build:emscripten && yarn build:lib",
     "clean": "rimraf build dist coverage lib/magic-js.js lib/magic-js.wasm",
-    "lint": "eslint . --ext .js,.ts",
+    "lint": "eslint . --ignore-path .gitignore --ext .js,.ts",
     "test": "jest",
     "changelog": "auto-changelog -p && git add CHANGELOG.md",
     "example:raw": "node build/examples/raw-binding-example.js",
