@@ -235,6 +235,8 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
     
     SRCS="magic-js.cpp"
     # Compile the code
+    # We enable FS, using node rawfs and we force the environment to always 
+    # be node, thus disabling the auto-detection at runtime
     EMCC_OPTIONS="-O3 \
 -fno-exceptions \
 --bind \
@@ -242,6 +244,7 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
 -s ALLOW_MEMORY_GROWTH=1 \
 -s MALLOC=emmalloc \
 -s MODULARIZE=1 \
+-s ENVIRONMENT=node \
 -s FILESYSTEM=1 \
 -s NODERAWFS=1 \
 -o ../magic-js.js \
