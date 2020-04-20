@@ -238,8 +238,6 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "binding" ]; then
     EMCC_OPTIONS="-O3 \
 -fno-exceptions \
 --bind \
---no-entry \
--s STRICT=1 \
 -s ASSERTIONS=1 \
 -s ALLOW_MEMORY_GROWTH=1 \
 -s MALLOC=emmalloc \
