@@ -132,14 +132,20 @@ export class FileMagic {
    * initialized using the magic file path and the flags current values
    * respectively in the magicFile and flags properties.
    *
+   * @param locateFile custom function to locate the WASM file. This is
+   * particularly helpful when the wasm file is moved away from the js
+   * binding file or when it needs to be fetched via http.
    * @return a Promise of the single instance of FileMagic that resolves
    * after the binding is properly initialized, or rejects with an Error
    * when it fails.
    */
-  static getInstance(): Promise<FileMagic> {
+  static getInstance(
+    locateFile?: (wasmFile: string, dir: string) => string
+  ): Promise<FileMagic> {
     if (!FileMagic._instance) {
       return new Promise((resolve, reject) => {
         const moduleInstance: MagicBindingModule = bindingModule({
+          locateFile: locateFile,
           onRuntimeInitialized() {
             // Initialize libmagic
             const status = moduleInstance.MagicBinding.init(
