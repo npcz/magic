@@ -17,7 +17,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "build:dockerimage": "docker image inspect -f '.' mydockerimage || docker build -t mydockerimage .",
-    "build:emscripten": "napa && docker run --rm -v $(pwd):/src mydockerimage ./build.sh",
+    "build:emscripten": "napa && docker run --rm -v $(pwd):/src --user $(id -u):$(id -g) mydockerimage ./build.sh",
     "build:lib": "tsc -p tsconfig.json && copyfiles -a -f build/lib/* dist",
     "build": "yarn build:dockerimage && yarn build:emscripten && yarn build:lib",
     "clean": "rimraf build dist coverage lib/magic-js.js lib/magic-js.wasm",
