@@ -5,15 +5,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { MagicBindingModule, MagicBindingInterface } from '../lib/index';
 
-const bindingModule = require('../../dist/magic-js');
+const createBindingModule = require('../../dist/magic-js');
 
 const magicFile = path.normalize(
   path.join(__dirname, '..', '..', 'dist', 'magic.mgc')
 );
 
-const binding: MagicBindingModule = bindingModule({
-  onRuntimeInitialized() {
-    console.log(binding);
+// const binding: MagicBindingModule = bindingModule({
+//   onRuntimeInitialized() {
+  createBindingModule().then((binding: MagicBindingModule) => {
+    console.log(binding.MagicBinding);
     console.log(`Magic version : ${binding.MagicBinding.version()}`);
 
     // We can only use MAGIC_PRESERVE_ATIME on operating suystems that support
@@ -44,5 +45,5 @@ const binding: MagicBindingModule = bindingModule({
     });
 
     binding.MagicBinding.destroy();
-  }
-});
+  });
+// });

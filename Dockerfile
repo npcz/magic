@@ -1,4 +1,4 @@
-FROM trzeci/emscripten:1.39.10-upstream
+FROM trzeci/emscripten:1.39.18-upstream
 
 RUN apt-get update && \
     apt-get install -qqy autoconf automake libtool

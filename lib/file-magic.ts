@@ -6,7 +6,7 @@ import {
   MagicBindingStaticInterface,
   MagicBindingInterface
 } from './binding';
-const bindingModule = require('./magic-js');
+const createBindingModule = require('./magic-js');
 
 /**
  * Reproduces exactly the same values than in magic.h of libmagic but using
@@ -144,9 +144,7 @@ export class FileMagic {
   ): Promise<FileMagic> {
     if (!FileMagic._instance) {
       return new Promise((resolve, reject) => {
-        const moduleInstance: MagicBindingModule = bindingModule({
-          locateFile: locateFile,
-          onRuntimeInitialized() {
+        createBindingModule({locateFile: locateFile}).then((moduleInstance: MagicBindingModule) => {
             // Initialize libmagic
             const status = moduleInstance.MagicBinding.init(
               FileMagic.magicFile,
@@ -162,8 +160,7 @@ export class FileMagic {
             FileMagic._instance._magic = new moduleInstance.MagicBinding();
 
             resolve(FileMagic._instance);
-          }
-        });
+          });
       });
     }
     return Promise.resolve(FileMagic._instance);
