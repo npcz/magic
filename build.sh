@@ -208,9 +208,9 @@ if [ "$TARGET" == "all" ] || [ "$TARGET" == "emlib" ]; then
     fi
     echo "-- [emscript-libmagic] configure stage"
     if [ $VERBOSE == yes ]; then
-        ! emconfigure "$LIBMAGIC_SRC_DIR"/configure --enable-static=yes --enable-shared=yes
+        ! emconfigure "$LIBMAGIC_SRC_DIR"/configure --enable-static=yes --enable-shared=no
     else
-        ! emconfigure "$LIBMAGIC_SRC_DIR"/configure --enable-static=yes --enable-shared=yes  > /dev/null
+        ! emconfigure "$LIBMAGIC_SRC_DIR"/configure --enable-static=yes --enable-shared=no  > /dev/null
     fi
     if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
         echo "$0: failed to run configure"
