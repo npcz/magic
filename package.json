@@ -1,6 +1,6 @@
 {
   "name": "@npcz/magic",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "Emscripten port of libmagic (https://darwinsys.com/file/) with javascript interface",
   "keywords": [
     "libmagic",
@@ -58,6 +58,6 @@
     "log-level": "error"
   },
   "napa": {
-    "c-libmagic": "git+https://github.com/file/file.git"
+    "c-libmagic": "git+https://github.com/file/file.git#FILE5_39"
   }
 }
