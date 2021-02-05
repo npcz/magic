@@ -49,6 +49,10 @@
     "ts-jest": "^26.5.0",
     "typescript": "^4.1.3"
   },
+  "resolutions": {
+    "ini": "1.3.8",
+    "bl": "1.2.3"
+  },
   "napa-config": {
     "cache": false,
     "log-level": "error"
