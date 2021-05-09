@@ -11,39 +11,36 @@ const magicFile = path.normalize(
   path.join(__dirname, '..', '..', 'dist', 'magic.mgc')
 );
 
-// const binding: MagicBindingModule = bindingModule({
-//   onRuntimeInitialized() {
-  createBindingModule().then((binding: MagicBindingModule) => {
-    console.log(binding.MagicBinding);
-    console.log(`Magic version : ${binding.MagicBinding.version()}`);
+createBindingModule().then((binding: MagicBindingModule) => {
+  console.log(binding.MagicBinding);
+  console.log(`Magic version : ${binding.MagicBinding.version()}`);
 
-    // We can only use MAGIC_PRESERVE_ATIME on operating suystems that support
-    // it and that includes OS X for example. It's a good practice as we don't
-    // want to change the last access time because we are just checking the file
-    // contents type
-    let flags = 0;
-    if (process.platform === 'darwin' || process.platform === 'linux') {
-      flags = binding.MAGIC_PRESERVE_ATIME;
-    }
+  // We can only use MAGIC_PRESERVE_ATIME on operating suystems that support
+  // it and that includes OS X for example. It's a good practice as we don't
+  // want to change the last access time because we are just checking the file
+  // contents type
+  let flags = 0;
+  if (process.platform === 'darwin' || process.platform === 'linux') {
+    flags = binding.MAGIC_PRESERVE_ATIME;
+  }
 
-    if (-1 === binding.MagicBinding.init(magicFile, flags)) {
-      console.error('Initialization failed!');
-      return;
-    }
+  if (-1 === binding.MagicBinding.init(magicFile, flags)) {
+    console.error('Initialization failed!');
+    return;
+  }
 
-    const magic: MagicBindingInterface = new binding.MagicBinding();
+  const magic: MagicBindingInterface = new binding.MagicBinding();
 
-    const files = fs.readdirSync('.');
-    console.log(`${files.length} files to check`);
-    files.forEach(file => {
-      console.log(
-        file,
-        ' : ',
-        magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME)
-      );
-      console.log(file, ' : ', magic.detect(file, -1));
-    });
-
-    binding.MagicBinding.destroy();
+  const files = fs.readdirSync('.');
+  console.log(`${files.length} files to check`);
+  files.forEach((file) => {
+    console.log(
+      file,
+      ' : ',
+      magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME)
+    );
+    console.log(file, ' : ', magic.detect(file, -1));
   });
-// });
+
+  binding.MagicBinding.destroy();
+});

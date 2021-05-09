@@ -28,7 +28,7 @@ FileMagic.getInstance()
     // We can call the detection methods
     const files = fs.readdirSync('.');
     console.log(`${files.length} files to check`);
-    files.forEach(file => {
+    files.forEach((file) => {
       console.log(
         file,
         ' : ',

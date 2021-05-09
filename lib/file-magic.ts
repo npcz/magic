@@ -4,7 +4,7 @@
 import {
   MagicBindingModule,
   MagicBindingStaticInterface,
-  MagicBindingInterface
+  MagicBindingInterface,
 } from './binding';
 const createBindingModule = require('./magic-js');
 
@@ -80,7 +80,7 @@ export enum MagicFlags {
     MAGIC_NO_CHECK_CDF |
     MAGIC_NO_CHECK_TOKENS |
     MAGIC_NO_CHECK_ENCODING |
-    MAGIC_NO_CHECK_JSON
+    MAGIC_NO_CHECK_JSON,
 }
 
 /**
@@ -144,7 +144,8 @@ export class FileMagic {
   ): Promise<FileMagic> {
     if (!FileMagic._instance) {
       return new Promise((resolve, reject) => {
-        createBindingModule({locateFile: locateFile}).then((moduleInstance: MagicBindingModule) => {
+        createBindingModule({ locateFile: locateFile }).then(
+          (moduleInstance: MagicBindingModule) => {
             // Initialize libmagic
             const status = moduleInstance.MagicBinding.init(
               FileMagic.magicFile,
@@ -160,7 +161,8 @@ export class FileMagic {
             FileMagic._instance._magic = new moduleInstance.MagicBinding();
 
             resolve(FileMagic._instance);
-          });
+          }
+        );
       });
     }
     return Promise.resolve(FileMagic._instance);
