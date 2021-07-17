@@ -60,6 +60,6 @@
     "log-level": "error"
   },
   "napa": {
-    "c-libmagic": "git+https://github.com/file/file.git#FILE5_39"
+    "c-libmagic": "git+https://github.com/file/file.git#FILE5_40"
   }
 }
