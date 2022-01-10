@@ -1,18 +1,13 @@
 {
-  "compileOnSave": true,
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "./build",
+    "rootDir": "./lib",
+    "outDir": "./dist",
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "ES5",
     "sourceMap": true,
     "declaration": true
   },
-  "exclude": [
-    "dist",
-    "build",
-    "**/__tests__/**/*.+(ts)",
-    "**/?(*.)+(spec|test).+(ts)"
-  ]
+  "include": ["l**/*"],
+  "exclude": ["**/__tests__/**/*.+(ts)", "**/?(*.)+(spec|test).+(ts)"]
 }

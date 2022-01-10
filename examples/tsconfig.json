@@ -1,6 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../build/examples",
     "types": ["node"]
-  }
+  },
+  "include": ["**/*"]
 }

@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "lib build",
+      "group": "build",
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "option": "watch",
+      "problemMatcher": ["$tsc-watch"]
+    },
+    {
+      "label": "examples build",
+      "group": "build",
+      "type": "typescript",
+      "tsconfig": "examples/tsconfig.json",
+      "option": "watch",
+      "problemMatcher": ["$tsc-watch"]
+    },
+    {
+      "label": "TS build all",
+      "group": "build",
+      "dependsOn": ["lib build", "examples build"],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

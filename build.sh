@@ -266,16 +266,5 @@ $SRCS"
         echo "$0: failed to copy generated magic-js files to dist dir"
         exit 4
     fi
-    echo "-- [binding] copy js and wasm to build/lib"
-    ! mkdir -p "$ROOT_DIR"/build/lib
-    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-        echo "$0: failed to create destination $ROOT_DIR/build/lib"
-        exit 4
-    fi
-    ! cp ../magic-js.js ../magic-js.wasm "$ROOT_DIR"/build/lib
-    if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-        echo "$0: failed to copy generated magic-js files to build dir"
-        exit 4
-    fi
     cd "$ROOT_DIR"
 fi
