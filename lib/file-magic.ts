@@ -6,7 +6,7 @@ import {
   MagicBindingStaticInterface,
   MagicBindingInterface,
 } from './binding';
-const createBindingModule = require('./magic-js');
+const createBindingModule = require('@npcz/magic/dist/magic-js');
 
 /**
  * Reproduces exactly the same values than in magic.h of libmagic but using
@@ -95,7 +95,7 @@ export class FileMagic {
    * This path must be correct and pointing to the location of the magic.mgc file.
    * By default, it is expected to be in the current script working directory.
    */
-  static magicFile: string = require.resolve("@npcz/magic/dist/magic.mgc");
+  static magicFile: string = require.resolve('@npcz/magic/dist/magic.mgc');
   /**
    * Default flags used by libmagic binding.
    *
