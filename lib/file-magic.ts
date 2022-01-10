@@ -95,7 +95,7 @@ export class FileMagic {
    * This path must be correct and pointing to the location of the magic.mgc file.
    * By default, it is expected to be in the current script working directory.
    */
-  static magicFile: string = 'magic.mgc';
+  static magicFile: string = require.resolve("@npcz/magic/dist/magic.mgc");
   /**
    * Default flags used by libmagic binding.
    *

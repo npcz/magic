@@ -1,11 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { FileMagic, MagicFlags } from '../lib/index';
+import { FileMagic, MagicFlags } from '@npcz/magic';
 
 // Tell FileMagic where to find the magic.mgc file
-FileMagic.magicFile = path.normalize(
-  path.join(__dirname, '..', '..', 'dist', 'magic.mgc')
-);
+FileMagic.magicFile = require.resolve('@npcz/magic/dist/magic.mgc');
 
 // We can onlu use MAGIC_PRESERVE_ATIME on operating suystems that support
 // it and that includes OS X for example. It's a good practice as we don't

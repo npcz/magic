@@ -19,12 +19,10 @@ NOTE: file system access is required and therefore the module is only useful in 
 ```typescript
 import * as fs from 'fs';
 import * as path from 'path';
-import { FileMagic, MagicFlags } from '../lib/index';
+import { FileMagic, MagicFlags } from '@npcz/magic';
 
 // Tell FileMagic where to find the magic.mgc file
-FileMagic.magicFile = path.normalize(
-  path.join(__dirname, '..', '..', 'dist', 'magic.mgc')
-);
+FileMagic.magicFile = require.resolve('@npcz/magic/dist/magic.mgc');
 
 // We can onlu use MAGIC_PRESERVE_ATIME on operating suystems that support
 // it and that includes OS X for example. It's a good practice as we don't
@@ -72,21 +70,26 @@ FileMagic.getInstance()
 
 ```typescript
 import * as fs from 'fs';
-import { MagicBindingModule, MagicBindingInterface } from '../lib/index';
+import { MagicBindingModule, MagicBindingInterface } from '@npcz/magic';
 
-const bindingModule = require('../../dist/magic-js');
-// Since emscripten 1.39.16, the factory function returns a promise
+const createBindingModule = require('@npcz/magic/dist/magic-js');
+
+const magicFile = require.resolve('@npcz/magic/dist/magic.mgc');
+
 createBindingModule().then((binding: MagicBindingModule) => {
-  console.log(binding);
+  console.log(binding.MagicBinding);
   console.log(`Magic version : ${binding.MagicBinding.version()}`);
 
-  if (
-    -1 ===
-    binding.MagicBinding.init(
-      '/Users/abdessattar/Projects/maestro-magic/dist/magic.mgc',
-      binding.MAGIC_PRESERVE_ATIME
-    )
-  ) {
+  // We can only use MAGIC_PRESERVE_ATIME on operating suystems that support
+  // it and that includes OS X for example. It's a good practice as we don't
+  // want to change the last access time because we are just checking the file
+  // contents type
+  let flags = 0;
+  if (process.platform === 'darwin' || process.platform === 'linux') {
+    flags = binding.MAGIC_PRESERVE_ATIME;
+  }
+
+  if (-1 === binding.MagicBinding.init(magicFile, flags)) {
     console.error('Initialization failed!');
     return;
   }
@@ -125,6 +128,9 @@ To build the module from source:
 ```shell
 $ git clone https://github.com/npcz/magic.git
 $ cd magic
+$ yarn install
+$ yarn link
+$ yarn link "@npcz/magic"
 $ yarn build
 $ yarn test
 $ yarn example:raw
@@ -132,6 +138,9 @@ $ yarn example:magic
 ```
 
 The build uses docker to reduce the hassle of platform specific things when building libmagic. Setting up docker varies between platforms, refer to the official [docker documentation](https://docs.docker.com/get-started).
+
+It's important to do the `yarn link` steps so that the test cases and examples
+use the local module while still referring to it as if it were installed.
 
 Pull requests, bug reports, enhancement suggestions etc... are welcome at the github repository.
 

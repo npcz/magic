@@ -20,7 +20,7 @@ const moduleOptions = {
 describe('Raw binding to libmagic unit tests', () => {
   let bindingModule: any;
   beforeAll((done) => {
-    bindingModule = require('../dist/magic-js');
+    bindingModule = require('@npcz/magic/dist/magic-js');
     bindingModule(moduleOptions).then((binding: MagicBindingModule) => {
       expect(binding).not.toBeNull();
       expect(binding.MagicBinding).not.toBeNull();
@@ -82,7 +82,7 @@ describe('Raw binding to libmagic unit tests', () => {
   it('can be successfully initialized with a magic.mgc path and specific flags', (done) => {
     bindingModule().then((binding: MagicBindingModule) => {
       const result = binding.MagicBinding.init(
-        path.normalize(path.join(__dirname, '..', 'dist', 'magic.mgc')),
+        require.resolve('@npcz/magic/dist/magic.mgc'),
         binding.MAGIC_DEBUG
       );
       expect(result).not.toEqual(-1);
@@ -110,9 +110,7 @@ describe('Raw binding to libmagic unit tests', () => {
   });
   it('does the magic detection', (done) => {
     bindingModule().then((binding: MagicBindingModule) => {
-      const magicPath = path.normalize(
-        path.join(__dirname, '..', 'dist', 'magic.mgc')
-      );
+      const magicPath = require.resolve('@npcz/magic/dist/magic.mgc');
       const initResult = binding.MagicBinding.init(
         magicPath,
         binding.MAGIC_NONE

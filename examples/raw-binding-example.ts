@@ -3,13 +3,11 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { MagicBindingModule, MagicBindingInterface } from '../lib/index';
+import { MagicBindingModule, MagicBindingInterface } from '@npcz/magic';
 
-const createBindingModule = require('../../dist/magic-js');
+const createBindingModule = require('@npcz/magic/dist/magic-js');
 
-const magicFile = path.normalize(
-  path.join(__dirname, '..', '..', 'dist', 'magic.mgc')
-);
+const magicFile = require.resolve("@npcz/magic/dist/magic.mgc");
 
 createBindingModule().then((binding: MagicBindingModule) => {
   console.log(binding.MagicBinding);
