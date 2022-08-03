@@ -7,7 +7,7 @@ import { MagicBindingModule, MagicBindingInterface } from '@npcz/magic';
 
 const createBindingModule = require('@npcz/magic/dist/magic-js');
 
-const magicFile = require.resolve("@npcz/magic/dist/magic.mgc");
+const magicFile = require.resolve('@npcz/magic/dist/magic.mgc');
 
 createBindingModule().then((binding: MagicBindingModule) => {
   console.log(binding.MagicBinding);
