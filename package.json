@@ -59,7 +59,8 @@
     "tar": "^6.1.11",
     "tmpl": "^1.0.5",
     "ansi-regex": "^5.0.1",
-    "got": "^11.8.5"
+    "got": "^11.8.5",
+    "minimatch": "^3.0.5"
   },
   "napa-config": {
     "cache": false,
