@@ -4,4 +4,9 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "task.allowAutomaticTasks": "on",
+    "cSpell.words": [
+        "Emscripten",
+        "libmagic",
+        "npcz"
+    ],
 }
