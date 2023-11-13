@@ -16,7 +16,7 @@ describe('file magic unit tests', () => {
 
   beforeEach(() => {
     FileMagic.magicFile = path.normalize(
-      path.join(__dirname, '..', 'dist', 'magic.mgc')
+      path.join(__dirname, '..', 'dist', 'magic.mgc'),
     );
   });
   describe('normal behavior', () => {
@@ -54,7 +54,7 @@ describe('file magic unit tests', () => {
       const result = magic.detectMimeType(__filename);
       expect(result).toEqual('text/x-java');
     });
-    it('detectMimeEncoding return full descriptio mime encoding of file', async () => {
+    it('detectMimeEncoding return full description mime encoding of file', async () => {
       const result = magic.detectMimeEncoding(__filename);
       expect(result).toEqual('us-ascii');
     });
@@ -71,7 +71,7 @@ describe('file magic unit tests', () => {
     });
     it('throws when detection fails', async () => {
       FileMagic.magicFile = path.normalize(
-        path.join(__dirname, '..', 'dist', 'magic.mgc')
+        path.join(__dirname, '..', 'dist', 'magic.mgc'),
       );
       magic = await FileMagic.getInstance();
       expect(magic).not.toBeNull();

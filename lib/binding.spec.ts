@@ -11,7 +11,7 @@ import * as path from 'path';
 
 const moduleOptions = {
   // This can be used to override the way the wasm file is located in
-  // the file system when it is not located jsut besides the js script.
+  // the file system when it is not located just besides the js script.
   locateFile: function (path: string, scriptDirectory: string) {
     return scriptDirectory + path;
   },
@@ -83,7 +83,7 @@ describe('Raw binding to libmagic unit tests', () => {
     bindingModule().then((binding: MagicBindingModule) => {
       const result = binding.MagicBinding.init(
         require.resolve('@npcz/magic/dist/magic.mgc'),
-        binding.MAGIC_DEBUG
+        binding.MAGIC_DEBUG,
       );
       expect(result).not.toEqual(-1);
       expect(binding.MagicBinding.flags()).toEqual(binding.MAGIC_DEBUG);
@@ -94,7 +94,7 @@ describe('Raw binding to libmagic unit tests', () => {
     bindingModule().then((binding: MagicBindingModule) => {
       const result = binding.MagicBinding.init(
         path.normalize(path.join(__dirname, '..', 'dist', 'NOT_magic.mgc')),
-        binding.MAGIC_DEBUG
+        binding.MAGIC_DEBUG,
       );
       expect(result).toEqual(-1);
       done();
@@ -113,13 +113,13 @@ describe('Raw binding to libmagic unit tests', () => {
       const magicPath = require.resolve('@npcz/magic/dist/magic.mgc');
       const initResult = binding.MagicBinding.init(
         magicPath,
-        binding.MAGIC_NONE
+        binding.MAGIC_NONE,
       );
       expect(initResult).not.toEqual(-1);
       const magic = new binding.MagicBinding();
       let result = magic.detect(magicPath, -1);
       expect(
-        result.startsWith('magic binary file for file(1) cmd')
+        result.startsWith('magic binary file for file(1) cmd'),
       ).toBeTruthy();
       result = magic.detect(magicPath, binding.MAGIC_MIME);
       expect(result).toEqual('application/octet-stream; charset=binary');
