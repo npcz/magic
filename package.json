@@ -1,6 +1,6 @@
 {
   "name": "@npcz/magic",
-  "version": "1.3.14",
+  "version": "1.3.15",
   "description": "Emscripten port of libmagic (https://darwinsys.com/file/) with javascript interface",
   "keywords": [
     "libmagic",
@@ -17,7 +17,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "build:dockerimage": "docker image inspect -f '.' mydockerimage || docker build --network=host -t mydockerimage .",
-    "build:emscripten": "napa && docker run --rm -v $(pwd):/src --user $(id -u):$(id -g) mydockerimage ./build.sh",
+    "build:emscripten": "napa && docker run --platform linux/amd64 --rm -v $(pwd):/src --user $(id -u):$(id -g) mydockerimage ./build.sh",
     "build:lib": "tsc -p tsconfig.json",
     "build:examples": "tsc -p examples/tsconfig.json",
     "build": "yarn build:dockerimage && yarn build:emscripten && yarn build:lib && yarn build:examples",
@@ -30,43 +30,47 @@
     "examples": "yarn example:raw && yarn example:magic"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.0",
-    "@types/node": "^17.0.8",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
     "auto-changelog": "^2.4.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^8.21.0",
+    "eslint": "^8.53.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "jest": "^28.1.3",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "jest": "^29.7.0",
     "lodash": "4.17.21",
     "napa": "^3.0.0",
-    "node": "^17.3.0",
-    "prettier": "^2.7.1",
-    "prettier-eslint": "^15.0.1",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^28.0.7",
-    "typescript": "^4.7.4"
+    "node": "^21.1.0",
+    "prettier": "^3.1.0",
+    "prettier-eslint": "^16.1.2",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
   },
   "resolutions": {
-    "ini": "^1.3.8",
-    "bl": "^1.2.3",
-    "handlebars": "^4.7.7",
-    "ws": "^7.4.6",
+    "ini": "^4.1.1",
+    "bl": "^6.0.8",
+    "handlebars": "^4.7.8",
+    "ws": "^8.14.2",
     "path-parse": "^1.0.7",
-    "tar": "^6.1.11",
+    "tar": "^6.2.0",
     "tmpl": "^1.0.5",
     "ansi-regex": "^5.0.1",
-    "got": "^11.8.5",
-    "minimatch": "^3.0.5"
+    "got": "^11.8.2",
+    "minimatch": "^9.0.3",
+    "word-wrap": "^1.2.5",
+    "semver": "^7.5.4",
+    "http-cache-semantics": "^4.1.1",
+    "@babel/traverse": "^7.23.3"
   },
   "napa-config": {
     "cache": false,
     "log-level": "error"
   },
   "napa": {
-    "c-libmagic": "git+https://github.com/file/file.git#FILE5_41"
+    "c-libmagic": "git+https://github.com/file/file.git#FILE5_45"
   }
 }

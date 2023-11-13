@@ -5,12 +5,12 @@ import { FileMagic, MagicFlags } from '@npcz/magic';
 // Tell FileMagic where to find the magic.mgc file
 FileMagic.magicFile = require.resolve('@npcz/magic/dist/magic.mgc');
 
-// We can onlu use MAGIC_PRESERVE_ATIME on operating suystems that support
+// We can only use MAGIC_PRESERVE_ATIME on operating systems that support
 // it and that includes OS X for example. It's a good practice as we don't
 // want to change the last access time because we are just checking the file
 // contents type
 if (process.platform === 'darwin' || process.platform === 'linux') {
-  FileMagic.defaulFlags = MagicFlags.MAGIC_PRESERVE_ATIME;
+  FileMagic.defaultFlags = MagicFlags.MAGIC_PRESERVE_ATIME;
 }
 
 // Get the single instance of FileMagic and work with it
@@ -30,7 +30,7 @@ FileMagic.getInstance()
       console.log(
         file,
         ' : ',
-        magic.detect(file, magic.flags | MagicFlags.MAGIC_MIME)
+        magic.detect(file, magic.flags | MagicFlags.MAGIC_MIME),
       );
       console.log(file, ' : ', magic.detect(file));
     });

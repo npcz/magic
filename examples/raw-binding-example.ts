@@ -13,7 +13,7 @@ createBindingModule().then((binding: MagicBindingModule) => {
   console.log(binding.MagicBinding);
   console.log(`Magic version : ${binding.MagicBinding.version()}`);
 
-  // We can only use MAGIC_PRESERVE_ATIME on operating suystems that support
+  // We can only use MAGIC_PRESERVE_ATIME on operating systems that support
   // it and that includes OS X for example. It's a good practice as we don't
   // want to change the last access time because we are just checking the file
   // contents type
@@ -35,7 +35,7 @@ createBindingModule().then((binding: MagicBindingModule) => {
     console.log(
       file,
       ' : ',
-      magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME)
+      magic.detect(file, binding.MagicBinding.flags() | binding.MAGIC_MIME),
     );
     console.log(file, ' : ', magic.detect(file, -1));
   });

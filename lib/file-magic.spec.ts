@@ -16,7 +16,7 @@ describe('file magic unit tests', () => {
 
   beforeEach(() => {
     FileMagic.magicFile = path.normalize(
-      path.join(__dirname, '..', 'dist', 'magic.mgc')
+      path.join(__dirname, '..', 'dist', 'magic.mgc'),
     );
   });
   describe('normal behavior', () => {
@@ -44,17 +44,17 @@ describe('file magic unit tests', () => {
     });
     it('detect returns full description of file by default', async () => {
       const result = magic.detect(__filename);
-      expect(result).toEqual('Java source, ASCII text');
+      expect(result).toEqual('JavaScript source, ASCII text');
     });
     it('detectMime returns full mime/encoding of file', async () => {
       const result = magic.detectMime(__filename);
-      expect(result).toEqual('text/x-java; charset=us-ascii');
+      expect(result).toEqual('application/javascript; charset=us-ascii');
     });
     it('detectMimeType returns mime type of file', async () => {
       const result = magic.detectMimeType(__filename);
-      expect(result).toEqual('text/x-java');
+      expect(result).toEqual('application/javascript');
     });
-    it('detectMimeEncoding return full descriptio mime encoding of file', async () => {
+    it('detectMimeEncoding return full description mime encoding of file', async () => {
       const result = magic.detectMimeEncoding(__filename);
       expect(result).toEqual('us-ascii');
     });
@@ -71,7 +71,7 @@ describe('file magic unit tests', () => {
     });
     it('throws when detection fails', async () => {
       FileMagic.magicFile = path.normalize(
-        path.join(__dirname, '..', 'dist', 'magic.mgc')
+        path.join(__dirname, '..', 'dist', 'magic.mgc'),
       );
       magic = await FileMagic.getInstance();
       expect(magic).not.toBeNull();

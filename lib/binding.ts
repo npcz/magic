@@ -143,7 +143,7 @@ export interface MagicBindingStaticInterface {
    *
    * These flags are a property of the class and therefore apply to all
    * instances of the binding created by calling new binding.MagicBinding().
-   * They are set when calling the init() method and can be overriden during
+   * They are set when calling the init() method and can be overridden during
    * the detect call.
    *
    * @example<caption>Making multiple detect calls with different flags</caption>
@@ -169,8 +169,8 @@ export interface MagicBindingStaticInterface {
   init(magicPath: string, flags: number): number;
 
   /**
-   * Destory the binding and release any resources it was holding (e.g. memory,
-   * file desriptors, etc...).
+   * Destroy the binding and release any resources it was holding (e.g. memory,
+   * file descriptors, etc...).
    *
    * This method must be called when the binding is no longer needed. After it
    * has been called, the binding can no longer be used and a new instance must

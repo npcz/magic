@@ -104,7 +104,7 @@ export class FileMagic {
    * getInstance() method. After that, detection can always be customized
    * by providing specific flags to the detect() method.
    */
-  static defaulFlags: MagicFlags = MagicFlags.MAGIC_NONE;
+  static defaultFlags: MagicFlags = MagicFlags.MAGIC_NONE;
   /**
    * The single instance of FileMagic.
    */
@@ -140,7 +140,7 @@ export class FileMagic {
    * when it fails.
    */
   static getInstance(
-    locateFile?: (wasmFile: string, dir: string) => string
+    locateFile?: (wasmFile: string, dir: string) => string,
   ): Promise<FileMagic> {
     if (!FileMagic._instance) {
       return new Promise((resolve, reject) => {
@@ -149,7 +149,7 @@ export class FileMagic {
             // Initialize libmagic
             const status = moduleInstance.MagicBinding.init(
               FileMagic.magicFile,
-              FileMagic.defaulFlags
+              FileMagic.defaultFlags,
             );
             if (status === -1) {
               reject('failed to initialize libmagic');
@@ -161,7 +161,7 @@ export class FileMagic {
             FileMagic._instance._magic = new moduleInstance.MagicBinding();
 
             resolve(FileMagic._instance);
-          }
+          },
         );
       });
     }
@@ -173,7 +173,7 @@ export class FileMagic {
    *
    * These flags are a property of the class and therefore apply to all
    * instances of the binding created by calling new binding.MagicBinding().
-   * They are set when calling the init() method and can be overriden during
+   * They are set when calling the init() method and can be overridden during
    * the detect call.
    *
    * @example<caption>Making multiple detect calls with different flags</caption>
@@ -189,7 +189,7 @@ export class FileMagic {
       return FileMagic._binding.flags();
     } else {
       throw new Error(
-        'FileMagic has not been initialized. Did you forget to call getInstance()?'
+        'FileMagic has not been initialized. Did you forget to call getInstance()?',
       );
     }
   }
@@ -205,14 +205,14 @@ export class FileMagic {
       return FileMagic._binding.version();
     } else {
       throw new Error(
-        'FileMagic has not been initialized. Did you forget to call getInstance()?'
+        'FileMagic has not been initialized. Did you forget to call getInstance()?',
       );
     }
   }
 
   /**
-   * Destory the binding and release any resources it was holding (e.g. memory,
-   * file desriptors, etc...).
+   * Destroy the binding and release any resources it was holding (e.g. memory,
+   * file descriptors, etc...).
    *
    * This method must be called when the binding is no longer needed. After it
    * has been called, the binding can no longer be used and a new instance must
@@ -265,7 +265,7 @@ export class FileMagic {
    * @return a string containing the detection result (type description, mime type,
    * mime encoding, etc...) when successful.
    * @throws Error with an error message when the detection fails or when used
-   * after the binding is clsoed.
+   * after the binding is closed.
    */
   detect(path: string, flags?: MagicFlags): string {
     if (FileMagic._binding) {
@@ -277,7 +277,7 @@ export class FileMagic {
       return result;
     } else {
       throw new Error(
-        'FileMagic has not been initialized. Did you forget to call getInstance()?'
+        'FileMagic has not been initialized. Did you forget to call getInstance()?',
       );
     }
   }
@@ -290,7 +290,7 @@ export class FileMagic {
    * @return a string containing the mime type of the file contents (e.g.
    * text/plain) when successful.
    * @throws Error with an error message when the detection fails or when used
-   * after the binding is clsoed.
+   * after the binding is closed.
    * @see detect
    */
   detectMimeType(path: string): string {
@@ -305,7 +305,7 @@ export class FileMagic {
    * @return a string containing the mime type of the file contents (e.g.
    * charset=us-ascii) when successful.
    * @throws Error with an error message when the detection fails or when used
-   * after the binding is clsoed.
+   * after the binding is closed.
    * @see detect
    */
   detectMimeEncoding(path: string): string {
@@ -320,7 +320,7 @@ export class FileMagic {
    * @return a string containing the mime type of the file contents (e.g.
    * text/plain; charset=us-ascii) when successful.
    * @throws Error with an error message when the detection fails or when used
-   * after the binding is clsoed.
+   * after the binding is closed.
    * @see detect
    */
   detectMime(path: string): string {
