@@ -6,7 +6,7 @@ The file command uses sophisticated methods to identify file types from their na
 
 The projects directly uses the native C implementation of libmagic, transpiled to Web Assembly using emscripten. The result is a close to native performance for file type identification, portable across any platform that has node.js.
 
-### List of features
+## List of features
 
 - Get a descriptive string of the file contents
 - Get the mime type and mime encoding of a file
@@ -14,7 +14,7 @@ The projects directly uses the native C implementation of libmagic, transpiled t
 
 NOTE: file system access is required and therefore the module is only useful in node.js environment. There is possibility though to enhance it to provide content identification using buffers and with the magic file preloaded in emscripten virtual filesystem (not implemented for now).
 
-### Using the simple FileMagic API
+## Using the simple FileMagic API
 
 ```typescript
 import * as fs from 'fs';
@@ -24,12 +24,12 @@ import { FileMagic, MagicFlags } from '@npcz/magic';
 // Tell FileMagic where to find the magic.mgc file
 FileMagic.magicFile = require.resolve('@npcz/magic/dist/magic.mgc');
 
-// We can onlu use MAGIC_PRESERVE_ATIME on operating suystems that support
+// We can only use MAGIC_PRESERVE_ATIME on operating systems that support
 // it and that includes OS X for example. It's a good practice as we don't
 // want to change the last access time because we are just checking the file
 // contents type
 if (process.platform === 'darwin' || process.platform === 'linux') {
-  FileMagic.defaulFlags = MagicFlags.MAGIC_PRESERVE_ATIME;
+  FileMagic.defaultFlags = MagicFlags.MAGIC_PRESERVE_ATIME;
 }
 
 // Get the single instance of FileMagic and work with it
@@ -66,7 +66,7 @@ FileMagic.getInstance()
   });
 ```
 
-### Using the raw binding
+## Using the raw binding
 
 ```typescript
 import * as fs from 'fs';
@@ -80,7 +80,7 @@ createBindingModule().then((binding: MagicBindingModule) => {
   console.log(binding.MagicBinding);
   console.log(`Magic version : ${binding.MagicBinding.version()}`);
 
-  // We can only use MAGIC_PRESERVE_ATIME on operating suystems that support
+  // We can only use MAGIC_PRESERVE_ATIME on operating systems that support
   // it and that includes OS X for example. It's a good practice as we don't
   // want to change the last access time because we are just checking the file
   // contents type
@@ -111,30 +111,30 @@ createBindingModule().then((binding: MagicBindingModule) => {
 });
 ```
 
-### Download & Installation
+## Download & Installation
 
 ```shell
-$ npm i @npcz/magic
+npm i @npcz/magic
 ```
 
 ```shell
-$ yarn add @npcz/magic
+yarn add @npcz/magic
 ```
 
-### Contributing
+## Contributing
 
 To build the module from source:
 
 ```shell
-$ git clone https://github.com/npcz/magic.git
-$ cd magic
-$ yarn install
-$ yarn link
-$ yarn link "@npcz/magic"
-$ yarn build
-$ yarn test
-$ yarn example:raw
-$ yarn example:magic
+cd magic
+yarn install
+yarn link
+yarn link "@npcz/magic"
+yarn build
+yarn test
+yarn example:raw
+git clone https://github.com/npcz/magic.git
+yarn example:magic
 ```
 
 The build uses docker to reduce the hassle of platform specific things when building libmagic. Setting up docker varies between platforms, refer to the official [docker documentation](https://docs.docker.com/get-started).
@@ -144,12 +144,12 @@ use the local module while still referring to it as if it were installed.
 
 Pull requests, bug reports, enhancement suggestions etc... are welcome at the github repository.
 
-### Acknowledgments
+## Acknowledgments
 
 - This file command (and magic file) was originally written by Ian Darwin (who still contributes occasionally) and is now maintained by a group of developers lead by Christos Zoulas.
 - Piotr Paczkowski for the emscripten [docker images](https://github.com/trzecieu/emscripten-docker).
 - The [emscripten](https://emscripten.org) project.
 
-### License
+## License
 
 This project is licensed under the BSD-3-Clause [License](./LICENSE)
