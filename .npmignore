@@ -1,6 +1,23 @@
-#IDE
+# Dev only files
+node_modules
 .idea
 .vscode
+.auto-changelog
+.eslintrc.json
+.prettierrc
+AUTHORS
+build.sh
+CHANGELOG.md
+Dockerfile
+jest.config.js
+README.md
+tsconfig.json
+
+# Examples
+examples
+
+# Typescript source files
+lib
 
 # Build dirs
 build
@@ -9,6 +26,5 @@ coverage
 # Logs
 *.log
 
-# Dependency directories
-node_modules/
+
 
