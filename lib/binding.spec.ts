@@ -122,7 +122,7 @@ describe('Raw binding to libmagic unit tests', () => {
         result.startsWith('magic binary file for file(1) cmd'),
       ).toBeTruthy();
       result = magic.detect(magicPath, binding.MAGIC_MIME);
-      expect(result).toEqual('application/octet-stream; charset=binary');
+      expect(result).toEqual('application/x-file; charset=binary');
       done();
     });
   });
