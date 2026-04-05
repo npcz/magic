@@ -53,7 +53,7 @@
   "resolutions": {
     "ini": "^4.1.1",
     "bl": "^6.0.8",
-    "handlebars": "^4.7.8",
+    "handlebars": "^4.7.9",
     "ws": "^8.14.2",
     "path-parse": "^1.0.7",
     "tar": "^6.2.0",
